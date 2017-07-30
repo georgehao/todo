@@ -22,3 +22,25 @@ func Authenticate(email string, password string) (models.User, error) {
 		return u, nil
 	}
 }
+
+func SignupUser(u *models.User) (uint, error) {
+	isExist, err := u.UserExist()
+	if err != nil {
+		return 0, err
+	}
+
+	if isExist {
+		msg := u.Email + "was already registered"
+		return 0, errors.New(msg)
+	}
+
+	u.LastLoginTime = time.Now()
+	u.CreatedAt = time.Now()
+
+	err = u.Create()
+	if err != nil {
+		return 0, err
+	}
+
+	return u.ID, err
+}

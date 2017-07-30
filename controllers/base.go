@@ -43,11 +43,9 @@ func (this *BaseController) GetLogin() *models.User {
 func (this *BaseController) Prepare() {
 	fmt.Println("prepare")
 	this.IsLogin = this.GetSession("userinfo") != nil
-	fmt.Println(this.IsLogin)
 	if this.IsLogin {
 		this.UserInfo = this.GetLogin()
 	}
-	fmt.Println("xxxxx")
 
 	this.Data["IsLogin"] = this.IsLogin
 	this.Data["UserInfo"] = this.UserInfo
