@@ -28,8 +28,10 @@ func (this *LoginController) Login() {
 	}
 
 	flash := beego.NewFlash()
-	email := this.GetString("email")
-	password := this.GetString("password")
+	email := this.GetString("Email")
+	password := this.GetString("Password")
+
+	fmt.Println(email, password)
 
 	// 判断用户名和密码是否有错误
 	user, err := lib.Authenticate(email, password)

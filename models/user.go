@@ -63,7 +63,6 @@ func Users() (users []User, err error) {
 func (user *User) UserExist() (bool, error) {
 	var count int = 0
 	err := db.Model(&User{}).Where("email = ?", user.Email).Count(&count).Error
-	fmt.Println(err, count)
 	if err != nil || count != 1 {
 		return false, err
 	}
