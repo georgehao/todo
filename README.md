@@ -10,7 +10,6 @@
 2. 登录/注册/登出
 3. todo list
 
-
 使用到的技术:
 1. [beego](https://beego.me)
 2. [gorm](http://jinzhu.me/gorm/crud.html)
