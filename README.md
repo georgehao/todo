@@ -5,6 +5,12 @@
 和[beego](https://beego.me), 其中beego里面有一个 **Todo** 的例子. 不过这个例子的内容都是放在**map**中,
 就产生个想法把这个东西使用数据库做起来, 同时把他作为一个网站放在阿里云上.
 
+我的想法: 
+1. 前端: 纯粹的html5 + css3 + js
+2. 登录/注册/登出
+3. todo list
+
+
 使用到的技术:
 1. [beego](https://beego.me)
 2. [gorm](http://jinzhu.me/gorm/crud.html)
