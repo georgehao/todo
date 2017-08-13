@@ -1,10 +1,11 @@
 package models
 
 import (
-"errors"
+	"errors"
 
-"github.com/astaxie/beego"
-"github.com/astaxie/beego/validation"
+	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/validation"
+	"github.com/jinzhu/gorm"
 )
 
 /*
@@ -21,4 +22,14 @@ func IsValid(model interface{}) (err error) {
 		}
 	}
 	return nil
+}
+
+var db *gorm.DB
+
+func init() {
+	var err error
+	db, err = gorm.Open("mysql", "root:123456@/todo?charset=utf8&parseTime=True&loc=Local")
+	if err != nil {
+		panic(err)
+	}
 }

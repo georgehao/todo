@@ -16,16 +16,6 @@ type User struct {
 	LastLoginTime time.Time
 }
 
-var db *gorm.DB
-
-func init() {
-	var err error
-	db, err = gorm.Open("mysql", "root:123456@/todo?charset=utf8&parseTime=True&loc=Local")
-	if err != nil {
-		panic(err)
-	}
-}
-
 // 如果你的 struct 实现了接口 validation.ValidFormer
 // 当 StructTag 中的测试都成功时，将会执行 Valid 函数进行自定义验证
 func (u *User) Valid(v *validation.Validation) {

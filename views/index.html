@@ -1,10 +1,111 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Index</title>
-</head>
-<body>
-    index.html
-</body>
-</html>
+{{template "base/base.html" .}}
+
+{{define "body"}}
+
+{{template "base/navbar.html" .}}
+
+<div class="container todo">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Todo List</h3>
+                </div>
+                <div class="panel-body">
+                    {{range $key, $value := .tasks}}
+                    <div class="checkbox">
+                        <label><input type="checkbox">{{$value.Content}}</label>
+                    </div>
+                    {{end}}
+                </div>
+
+                <div class="panel-footer">已完成: {{.done}}, 总共有: {{.total}}</div>
+
+                <ul class="pagination pagination-sm">
+                    <li>
+                        <a href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li>
+                        <a href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Add Todo</h3>
+                </div>
+
+                <div class="panel-body">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <div class="input-group" style="margin-right: 20px;">
+                                <span class="input-group-addon" id="basic-addon1">
+                                    <span class="glyphicon glyphicon-bell"></span>
+                                </span>
+                                <input type="text" class="form-control add-content" id="add-content" name="add-content" placeholder="What to do" aria-describedby="basic-addon1">
+                            </div>
+
+                            <span class="glyphicon glyphicon-tag"></span>
+                            <select class="form-control" name="add-degree" id="add-degree">
+                                <option class="selected" value="1">紧急</option>
+                                <option value="2">重要</option>
+                                <option value="3">一般</option>
+                            </select>
+                            <button type="button" class="btn btn-default add-submit-ok" style="margin-left: 20px;">Go!</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 info-right">
+            <blockquote>
+                <h2>急需完成工作</h2>
+            </blockquote>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <span class="glyphicon glyphicon-pushpin"></span>a1
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}
+
+
+{{define "script"}}
+<script>
+    $(document).ready(function () {
+        var add_content = $("#add-content");
+        var add_degree = $("#add-degree");
+        $(".add-submit-ok").click(function () {
+            $.ajax({
+                type: "POST",
+                url: "/add",
+                data: {
+                    "add-content": add_content.val(),
+                    "add-degree": add_degree.val()
+                },
+                dataType: "json",
+                success: function (resp) {
+                   window.location.reload();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert(jqXHR.status);
+                }
+            });
+        });
+    });
+</script>
+{{end}}
