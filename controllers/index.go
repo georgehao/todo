@@ -18,6 +18,7 @@ func (this *IndexController) Index() {
 	this.TplName = "index.html"
 
 	var task models.Task
+	task.UserId = this.UserInfo.ID
 	per, _ := this.GetInt("per", models.PAGE_PER)
 	pages, err := task.Page(per, this.SetPaginator(per, int64(len(task.All()))).Offset())
 	if err != nil {
@@ -27,6 +28,7 @@ func (this *IndexController) Index() {
 	this.Data["tasks"] = pages
 	this.Data["total"] = len(task.All())
 	this.Data["done"] = len(task.Done())
+	this.Data["user"] = this.UserInfo.Email
 
 	importants, err := task.MoreImportant()
 	if err != nil {
@@ -47,6 +49,7 @@ func (this *IndexController) Add() {
 	}
 	task.Degree = degree
 	task.CreatedAt = time.Now()
+	task.UserId = this.UserInfo.ID
 
 	_, err = task.Create()
 	if err != nil {
@@ -67,4 +70,13 @@ func (this *IndexController) Modify() {
 
 	task.Modify()
 	this.ServeJSON()
+}
+
+func (this *IndexController) About() {
+	if !this.IsLogin {
+		this.Ctx.Redirect(302, this.URLFor("LoginController.Login"))
+		return
+	}
+	this.TplName = "about.html"
+	this.Data["user"] = this.UserInfo.Email
 }

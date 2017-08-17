@@ -1,0 +1,22 @@
+{{template "base/base.html" .}}
+
+{{define "body"}}
+
+{{template "base/navbar.html" .}}
+
+<div class="container todo">
+    <div class="row">
+        <div class="about">
+            <p>这个网站是我的使用beego的练手项目, 代码都放在我的<a href="https://github.com/georgehao/todo">github</a>上</p>
+            <p>后端: beego</p>
+            <p>前端: bootstrap</p>
+        </div>
+    </div>
+</div>
+{{end}}
+
+{{define "script"}}
+<script>
+    $(".nav-about").addClass("active");
+</script>
+{{end}}

@@ -1,10 +1,10 @@
 package models
 
 import (
+	"github.com/astaxie/beego/validation"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 	"time"
-	"github.com/astaxie/beego/validation"
 )
 
 type User struct {
@@ -13,6 +13,7 @@ type User struct {
 	Password      string `gorm:"size:20" form:"Password" valid:"Required;MinSize(6)"`
 	Repassword    string `sql:"-" form:"Repassword" valid:"Required"` // let gorm ignore this field
 	LastLoginTime time.Time
+	Tasks         []Task `gorm:"ForeignKey:UserId"`
 }
 
 // 如果你的 struct 实现了接口 validation.ValidFormer

@@ -15,4 +15,5 @@ func init() {
 	beego.Router("/", &controllers.IndexController{}, "get:Index")
 	beego.Router("/add", &controllers.IndexController{}, "post:Add")
 	beego.Router("/modify", &controllers.IndexController{}, "put:Modify")
+	beego.Router("/about", &controllers.IndexController{}, "get:About")
 }

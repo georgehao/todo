@@ -3,7 +3,6 @@ package models
 import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
-	"samples/todo/models"
 	"time"
 )
 
@@ -12,11 +11,13 @@ type Task struct {
 	Content string `gorm:"size:255"`
 	Status  int    `gorm:"size:11"`
 	Degree  int    `gorm:"size:11"`
+	UserId  uint
 }
 
 func (this *Task) All() []Task {
 	var tasks []Task
-	db.Order("id desc").Find(&tasks)
+	user := User{Model:gorm.Model{ID: this.UserId}}
+	db.Model(&user).Order("id desc").Related(&tasks)
 	return tasks
 }
 
@@ -26,21 +27,24 @@ func (this *Task) Create() (uint, error) {
 	return this.ID, err
 }
 
-func (this *Task) Done() (tasks []models.Task) {
-	db.Where("status = ?", 1).Find(&tasks)
+func (this *Task) Done() (tasks []Task) {
+	user := User{Model:gorm.Model{ID: this.UserId}}
+	db.Model(&user).Where("status = ?", 1).Related(&tasks)
 	return
 }
 
 func (this *Task) Page(per int, offset int) ([]Task, error) {
 	var tasks []Task
-	err := db.Order("id desc").Offset(offset).Limit(per).Find(&tasks).Error
+	user := User{Model:gorm.Model{ID: this.UserId}}
+	err := db.Model(&user).Order("id desc").Offset(offset).Limit(per).Related(&tasks).Error
 	return tasks, err
 }
 
 // MoreImportant get the last 15 import task which isn't complete
 func (this *Task) MoreImportant() ([]Task, error) {
+	user := User{Model:gorm.Model{ID: this.UserId}}
 	var degree1 []Task
-	err := db.Where("status = ? and degree = ?", 0, 1).Find(&degree1).Error
+	err := db.Model(&user).Where("status = ? and degree = ?", 0, 1).Related(&degree1).Error
 	if err != nil {
 		return nil, err
 	}
@@ -51,7 +55,7 @@ func (this *Task) MoreImportant() ([]Task, error) {
 
 	var last int = MOST_IMPORTANT - len(degree1)
 	var degree2 []Task
-	err = db.Where("status = ? and degree = ?", 0, 2).Limit(last).Find(&degree2).Error
+	err = db.Model(&user).Where("status = ? and degree = ?", 0, 2).Limit(last).Related(&degree2).Error
 	if err != nil {
 		return nil, err
 	}
@@ -62,7 +66,7 @@ func (this *Task) MoreImportant() ([]Task, error) {
 	}
 
 	var degree3 []Task
-	err = db.Where("status = ? and degree = ?", 0, 3).Limit(last).Find(&degree3).Error
+	err = db.Model(&user).Where("status = ? and degree = ?", 0, 3).Limit(last).Related(&degree3).Error
 	if err != nil {
 		return nil, err
 	}

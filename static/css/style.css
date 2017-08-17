@@ -159,9 +159,18 @@ body {
     margin: 150px auto;
 }
 
+.todo-list {
+    height:auto!important;
+    height:200px;
+    min-height:200px;
+}
+
 .info-right {
     background-color: #F5F5F5;
     box-shadow: 2px 2px 3px #ccc;
+    height:auto!important;
+    height:100px;
+    min-height:500px;
 }
 
 .info-right blockquote {
@@ -186,6 +195,11 @@ body {
     background: #eee;
     border-top: 1px solid #ccc;
     text-align: center;
+    height: 20px;
+    box-sizing: border-box;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
 
 .glyphicon-pushpin {
