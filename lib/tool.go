@@ -4,13 +4,14 @@ import (
 	"github.com/georgehao/todo/models"
 	"time"
 	"errors"
+	"fmt"
 )
 
 func Authenticate(email string, password string) (models.User, error) {
 	msg := "invalid email or password"
-	user := models.User{Email:email}
+	user := models.User{}
 
-	if u, err := user.Where("email", user.Email); err != nil {
+	if u, err := user.Where("email", email); err != nil {
 		return user, errors.New(msg)
 	} else if u.ID < 1 {
 		return user, errors.New(msg)
@@ -37,8 +38,10 @@ func SignupUser(u *models.User) (uint, error) {
 	u.LastLoginTime = time.Now()
 	u.CreatedAt = time.Now()
 
+	fmt.Println(11111);
 	err = u.Create()
 	if err != nil {
+		fmt.Println(1111111111111111)
 		return 0, err
 	}
 

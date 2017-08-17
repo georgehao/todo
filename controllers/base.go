@@ -1,10 +1,10 @@
 package controllers
 
 import (
-	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/georgehao/todo/models"
 	"github.com/georgehao/todo/lib"
+	"fmt"
 )
 
 type BaseController struct {

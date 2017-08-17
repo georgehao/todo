@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"github.com/georgehao/todo/models"
 	"strconv"
 	"time"
@@ -37,12 +36,8 @@ func (this *IndexController) Index() {
 }
 
 func (this *IndexController) Add() {
-	fmt.Println("index controller add")
 	addContent := this.GetString("add-content")
 	addDegree := this.GetString("add-degree")
-
-	fmt.Println("content", addContent)
-	fmt.Println("degree", addDegree)
 
 	var task models.Task
 	task.Content = addContent
@@ -63,7 +58,6 @@ func (this *IndexController) Add() {
 }
 
 func (this *IndexController) Modify() {
-	fmt.Println("modify")
 	var task models.Task
 	id, err := strconv.Atoi(this.GetString("id"))
 	if err != nil {

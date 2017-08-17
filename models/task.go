@@ -5,7 +5,6 @@ import (
 	"github.com/jinzhu/gorm"
 	"samples/todo/models"
 	"time"
-	"fmt"
 )
 
 type Task struct {
@@ -73,7 +72,6 @@ func (this *Task) MoreImportant() ([]Task, error) {
 
 func (this *Task) Modify() {
 	db.First(this, this.ID)
-	fmt.Println(this.Status)
 	if this.Status == 0 {
 		db.Model(this).Update("status", 1)
 	} else {

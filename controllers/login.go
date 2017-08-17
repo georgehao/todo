@@ -1,11 +1,11 @@
 package controllers
 
 import (
-	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/georgehao/todo/lib"
 	"html/template"
 	"github.com/astaxie/beego/logs"
+	"fmt"
 )
 
 type LoginController struct {
@@ -23,7 +23,6 @@ func (this *LoginController) Login() {
 
 	// 判断当前方法是否是post方法, 如果是Get方法,则直接返回, 呈现页面
 	if !this.Ctx.Input.IsPost() {
-		fmt.Println("this method isn't post, return")
 		return
 	}
 
@@ -41,10 +40,10 @@ func (this *LoginController) Login() {
 		flash.Store(&this.Controller)
 		return
 	}
-	fmt.Println(1111);
 
 	flash.Success("Success Login in")
 	flash.Store(&this.Controller)
+
 
 	this.SetLogin(&user)
 	this.Redirect(this.URLFor("IndexController.Index"), 303)

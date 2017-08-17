@@ -1,7 +1,6 @@
 package models
 
 import (
-	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 	"time"
@@ -12,7 +11,7 @@ type User struct {
 	gorm.Model
 	Email         string `gorm:"size:255" form:"Email" valid:"Required;Email"`
 	Password      string `gorm:"size:20" form:"Password" valid:"Required;MinSize(6)"`
-	Repassword    string `gorm:"-" form:"Repassword" valid:"Required"` // let gorm ignore this field
+	Repassword    string `sql:"-" form:"Repassword" valid:"Required"` // let gorm ignore this field
 	LastLoginTime time.Time
 }
 
@@ -37,7 +36,6 @@ func (user *User) Where(key string, value string) (u User, err error) {
 func (user *User) Find() (User, error) {
 	var u User
 	err := db.Find(&u, user.ID).Error
-	fmt.Println(err)
 	return u, err
 }
 

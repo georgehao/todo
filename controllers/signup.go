@@ -13,7 +13,7 @@ type SignupController struct {
 }
 
 func (this *SignupController) Signup() {
-	this.TplName = "login.html"
+	this.TplName = "signup.html"
 	this.Data["xsrfdata"] = template.HTML(this.XSRFFormHTML())
 
 	if !this.Ctx.Input.IsPost() {
