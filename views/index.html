@@ -11,33 +11,30 @@
                 <div class="panel-heading">
                     <h3 class="panel-title">Todo List</h3>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body todo-list">
                     {{range $key, $value := .tasks}}
-                    <div class="checkbox">
-                        <label><input type="checkbox">{{$value.Content}}</label>
+                    <div class="col-md-7">
+                        {{if eq $value.Status 1}}
+                        <div class="checkbox">
+                            <label><input type="checkbox" id="checked" value="{{$value.ID}}" checked>{{$value.Content}}</label>
+                        </div>
+                        {{else}}
+                        <div class="checkbox">
+                            <label><input type="checkbox" id="checked" value="{{$value.ID}}">{{$value.Content}}</label>
+                        </div>
+                        {{end}}
+                    </div>
+                    <div class="col-md-5">
+                        {{$value.CreatedAt}}
                     </div>
                     {{end}}
                 </div>
 
-                <div class="panel-footer">已完成: {{.done}}, 总共有: {{.total}}</div>
+                <div class="panel-footer list-foot">已完成: {{.done}}, 总共有: {{.total}}</div>
 
-                <ul class="pagination pagination-sm">
-                    <li>
-                        <a href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li>
-                        <a href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
+                <div style="text-align: center;">
+                    {{template "base/paginator.html" .}}
+                </div>
             </div>
 
             <div class="panel panel-info">
@@ -70,12 +67,20 @@
 
         <div class="col-md-3 info-right">
             <blockquote>
-                <h2>急需完成工作</h2>
+                <h4>急需完成任务</h4>
             </blockquote>
 
             <div class="container-fluid">
                 <div class="row">
-                    <span class="glyphicon glyphicon-pushpin"></span>a1
+                    <ul class="list-group">
+                        {{range $key, $value := .importants}}
+                        <li class="list-group-item">
+                            <span class="glyphicon glyphicon-pushpin"></span>
+                            {{$value.Content}}
+                        </li>
+                        {{end}}
+                    </ul>
+
                 </div>
             </div>
         </div>
@@ -87,15 +92,19 @@
 {{define "script"}}
 <script>
     $(document).ready(function () {
-        var add_content = $("#add-content");
-        var add_degree = $("#add-degree");
         $(".add-submit-ok").click(function () {
+            var add_content = $("#add-content").val();
+            var add_degree = $("#add-degree").val();
+            if (add_content == "") {
+                return;
+            }
+
             $.ajax({
                 type: "POST",
                 url: "/add",
                 data: {
-                    "add-content": add_content.val(),
-                    "add-degree": add_degree.val()
+                    "add-content": add_content,
+                    "add-degree": add_degree,
                 },
                 dataType: "json",
                 success: function (resp) {
@@ -106,6 +115,33 @@
                 }
             });
         });
+
+        $(".todo-list").bind("click", function (evt) {
+//            evt.stopPropagation();
+//            for (var i in evt.target) { // 获取当前这个标签的所有网页元素
+//                console.log(i, evt.target[i]);
+//            }
+
+            if (evt.target.localName == "input") {
+                console.log(evt.target.value)
+                $.ajax({
+                    type: "PUT",
+                    url: "/modify",
+                    data: {
+                        "id": evt.target.value,
+                    },
+                    dataType: "json",
+                    success: function (resp) {
+                        window.location.reload();
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert(jqXHR.status);
+                    }
+                });
+            }
+
+        })
+
     });
 </script>
 {{end}}

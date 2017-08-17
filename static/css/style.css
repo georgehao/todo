@@ -2,6 +2,7 @@
 body {
     font-family: "Helvetica Neue", Helvetica, Arial, "Microsoft Yahei UI", "Microsoft YaHei", SimHei, "\5B8B\4F53", simsun, sans-serif;
     color: #666;
+    height: 100%;
 }
 
 .form-bg {
@@ -181,12 +182,12 @@ body {
     line-height: 1.6;
 }
 
-#footer {
-    background: #ccc;
+.footer {
+    background: #eee;
     border-top: 1px solid #ccc;
     text-align: center;
-    color: #eee;
-    position:absolute;
-    bottom:0;
-    width:100%;
+}
+
+.glyphicon-pushpin {
+    padding-right: 5px;
 }

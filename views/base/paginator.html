@@ -1,0 +1,39 @@
+{{if gt .paginator.PageNums 1}}
+<nav aria-label="Page navigation">
+<ul class="pagination pagination-sm">
+    {{if .paginator.HasPrev}}
+    <li>
+        <a href="{{.paginator.PageLinkPrev}}" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+        </a>
+    </li>
+    {{else}}
+    <li class="disabled">
+        <a href="#" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+        </a>
+    </li>
+    {{end}}
+
+    {{range $index, $page := .paginator.Pages}}
+    <li>
+        <a href="{{$.paginator.PageLink $page}}">{{$page}}</a>
+    </li>
+    {{end}}
+
+    {{if .paginator.HasNext}}
+    <li>
+        <a href="{{.paginator.PageLinkNext}}" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+        </a>
+    </li>
+    {{else}}
+    <li class="disabled">
+        <a href="#" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+        </a>
+    </li>
+    {{end}}
+</ul>
+</nav>
+{{end}}

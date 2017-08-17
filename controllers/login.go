@@ -14,7 +14,7 @@ type LoginController struct {
 
 func (this *LoginController) Login() {
 	if this.IsLogin {
-		this.Ctx.Redirect(302, this.URLFor("IndexController.Index"))
+		this.Ctx.Redirect(302, this.URLFor("LoginController.Index"))
 		return
 	}
 
@@ -41,6 +41,7 @@ func (this *LoginController) Login() {
 		flash.Store(&this.Controller)
 		return
 	}
+	fmt.Println(1111);
 
 	flash.Success("Success Login in")
 	flash.Store(&this.Controller)

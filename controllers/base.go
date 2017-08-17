@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/georgehao/todo/models"
+	"github.com/georgehao/todo/lib"
 )
 
 type BaseController struct {
@@ -38,6 +39,12 @@ func (this *BaseController) GetLogin() *models.User {
 		panic(err)
 	}
 	return &u
+}
+
+func (this *BaseController) SetPaginator(per int, nums int64) *lib.Paginator {
+	p := lib.NewPaginator(this.Ctx.Request, per, nums)
+	this.Data["paginator"] = p
+	return p
 }
 
 func (this *BaseController) Prepare() {
